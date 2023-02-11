@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import {
-listenGame,
+listGame,
 insertGame,
 } from '../controllers/games.controller.js';
 import { createGameValidation } from "../middlewares/createGameValidation.js";
@@ -12,7 +12,7 @@ import { newGameSchema } from "../schemas/newGameSchema.js";
 const gamesRouter = Router()
 
 gamesRouter.use(createGameValidation);
-gamesRouter.get("/games", listenGame);
+gamesRouter.get("/games", listGame);
 gamesRouter.post("/games",validateSchema(newGameSchema) ,insertGame);
 
 export default gamesRouter;

@@ -1,7 +1,7 @@
 import {db} from '../database/database.connection.js'
 
 
-export async function listenGame(req,res){
+export async function listGame(req,res){
 
 try {
     const games = await db.query("SELECT * FROM games ")
