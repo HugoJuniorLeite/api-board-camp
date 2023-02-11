@@ -4,11 +4,15 @@ import {
 listenGame,
 insertGame,
 } from '../controllers/games.controller.js';
+import { createGameValidation } from "../middlewares/createGameValidation.js";
 
-const router = Router()
+import { validateSchema } from "../middlewares/validadeSchema.js";
+import { newGameSchema } from "../schemas/newGameSchema.js";
 
+const gamesRouter = Router()
 
-router.get("/games", listenGame);
-router.post("/games",insertGame);
+gamesRouter.use(createGameValidation);
+gamesRouter.get("/games", listenGame);
+gamesRouter.post("/games",validateSchema(newGameSchema) ,insertGame);
 
-export default router;
+export default gamesRouter;

@@ -4,11 +4,11 @@ import {db} from '../database/database.connection.js'
 export async function listenGame(req,res){
 
 try {
-    const game = await db.query("SELECT * FROM games ")
+    const games = await db.query("SELECT * FROM games ")
  
-    res.send(game)
+   return res.send(games.rows)
 } catch (error) {
-    res.status(500).send(error.message)
+   return res.status(500).send(error.message)
 }
 }
 
