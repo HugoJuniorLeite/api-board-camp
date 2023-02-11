@@ -1,10 +1,10 @@
-import db from '../database/database.connection.js'
+import {db} from '../database/database.connection.js'
 
 
 export async function listenGame(req,res){
 
 try {
-    const game = db.query("SELECT * FROM games ")
+    const game = await db.query("SELECT * FROM games ")
  
     res.send(game.rows)
 } catch (error) {
