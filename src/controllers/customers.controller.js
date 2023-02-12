@@ -33,7 +33,7 @@ export async function listCustomers(req,res){
 
       try {
          const newClient = await db.query(`INSERT INTO customers( name, phone, cpf, birthday) VALUES ($1,$2,$3,$4)`,[name, phone, cpf,birthday])
-         res.send(201)
+         res.sendStatus(201)
       } catch (error) {
          res.status(500).send(error.message)
       }
@@ -44,10 +44,17 @@ export async function listCustomers(req,res){
     export async function updateClient(req, res){
        const {name, phone, cpf, birthday} = req.body
        const { id } = req.params
-
+console.log(id,"do update")
       try {
-         const newClient = await db.query(`UPDATE customers set name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5  `,[name, phone, cpf,birthday, id])
-         res.send(200)
+         const existCpf = await db.query(`SELECT * FROM customers WHERE cpf = $1`,[cpf]);
+    
+   if(existCpf.rowCount !== 0 && existCpf.rows[0].id != id ){
+
+    return res.sendStatus(409)
+   }
+
+         await db.query(`UPDATE customers set name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5  `,[name, phone, cpf,birthday, id])
+         res.sendStatus(200)
       } catch (error) {
          res.status(500).send(error.message)
       }

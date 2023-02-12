@@ -10,6 +10,7 @@ import { newClientValidation } from "../middlewares/newClientValidation.js";
 import { validateSchema } from "../middlewares/validadeSchema.js";
 import { newClientSchema } from "../schemas/newClientSchema.js";
 
+
 const customersRouter = Router()
 
 customersRouter.get("/customers/:id",filterCustomersId)
