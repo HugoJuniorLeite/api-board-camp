@@ -2,7 +2,7 @@ import {db} from "../database/database.connection.js"
 
 export async function newClientValidation(req, res, next){
 
-const {cpf, phone} = req.body
+const {cpf, phone,  } = req.body
 
 if( cpf.length !== 11){return res.sendStatus(400)}
 if(phone.length <10 || phone.length >11) {return res.sendStatus(400)}
