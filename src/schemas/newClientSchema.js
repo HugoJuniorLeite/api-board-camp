@@ -4,5 +4,5 @@ export const newClientSchema =Joi.object({
 name: Joi.string().required(),
 phone: Joi.number().required(),
 cpf: Joi.number().required(),
-birthday: Joi.number().required(),
+birthday: Joi.date().required(),
 })

@@ -24,7 +24,7 @@ export async function listCustomers(req,res){
 
 
       } catch (error) {
-         return res.status(500).send(error.message)
+         return res.status(400).send(error.message)
       }
     }
 
@@ -38,3 +38,17 @@ export async function listCustomers(req,res){
          res.status(500).send(error.message)
       }
     }
+
+
+
+    export async function updateClient(req, res){
+       const {name, phone, cpf, birthday} = req.body
+       const { id } = req.params
+
+      try {
+         const newClient = await db.query(`UPDATE customers set name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5  `,[name, phone, cpf,birthday, id])
+         res.send(200)
+      } catch (error) {
+         res.status(500).send(error.message)
+      }
+    }    
