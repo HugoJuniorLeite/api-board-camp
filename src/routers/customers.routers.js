@@ -11,8 +11,8 @@ import { newClientSchema } from "../schemas/newClientSchema.js";
 
 const customersRouter = Router()
 
-customersRouter.use(newClientValidation)
 customersRouter.get("/customers/:id",filterCustomersId)
 customersRouter.get("/customers",listCustomers)
+customersRouter.use(newClientValidation)
 customersRouter.post("/customers",validateSchema(newClientSchema), insertClient)
 export default customersRouter
