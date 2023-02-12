@@ -1,6 +1,6 @@
 import {db} from "../database/database.connection.js"
 
-export async function createGameValidation(req, res, next){
+export async function newGameValidation(req, res, next){
 
 const {name} = req.body
 
