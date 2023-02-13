@@ -11,8 +11,8 @@ import { newGameSchema } from "../schemas/newGameSchema.js";
 
 const gamesRouter = Router()
 
-gamesRouter.use(newGameValidation);
 gamesRouter.get("/games", listGame);
+gamesRouter.use(newGameValidation);
 gamesRouter.post("/games",validateSchema(newGameSchema) ,insertGame);
 
 export default gamesRouter;
