@@ -8,7 +8,7 @@ const {name} = req.body
 try {
     const existName = await db.query(`SELECT * FROM games WHERE name = $1`,[name]);
 
-    console.log(existName.rows.length > 0 )
+ //   console.log(existName.rows.length > 0 )
 
    if(existName.rowCount > 0){
 
