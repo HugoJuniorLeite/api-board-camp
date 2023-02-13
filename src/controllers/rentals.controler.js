@@ -26,7 +26,6 @@ try {
 }
 }
 
-
 export async function insertRentals(req,res){
     const {customerId, gameId, daysRented} = req.body
     
@@ -60,4 +59,31 @@ const objectRentals ={
         } catch (error) {
             res.status(500).send(error.message)
         }
+    }
+
+    export async function finishRental(req,res){
+        const { id } = req.params
+
+     try {
+        
+     } catch (error) {
+        res.status(500).send(error.message)
+     }   
+    }
+
+
+    export async function deleteRental(req,res){
+        const { id } = req.params
+
+     try {
+       const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
+       if( checkId.rowCount == 0) return res.sendStatus(404)
+       if(checkId.rows[0].rentDate != null) return res.sendStatus(400)
+
+        await db.query(`DELETE FROM rentals WHERE id=$1`, [id])
+        return res.sendStatus(200)
+
+     } catch (error) {
+        res.status(500).send(error.message)
+     }   
     }
