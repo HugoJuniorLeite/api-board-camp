@@ -61,12 +61,15 @@ const objectRentals ={
             if(checkId.rows[0].returnDate) return res.sendStatus(400)
             
         const returnDate = dayjs().format("YYYY-MM-DD")
-        const dayDiff = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day')
+        const dayDiff = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day') - checkId.rows[0].daysRented
         const priceDay = ( checkId.rows[0].originalPrice / checkId.rows[0].daysRented ) 
+        
         let delayFee=null   
+
         if(dayDiff > 0  ){
             delayFee = dayDiff * priceDay
         }
+    
 
         // console.log(dayDiff,"daydiff")
         // console.log(priceDay,"preço dia")
