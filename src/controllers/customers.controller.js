@@ -31,6 +31,10 @@ export async function listCustomers(req,res){
     export async function insertClient(req, res){
       const {name, phone, cpf, birthday} = req.body
 
+      if( cpf.length !== 11){return res.sendStatus(400)}
+      if(phone.length <10 || phone.length >11) {return res.sendStatus(400)}
+
+
       try {
          const newClient = await db.query(`INSERT INTO customers( name, phone, cpf, birthday) VALUES ($1,$2,$3,$4)`,[name, phone, cpf,birthday])
          res.sendStatus(201)
@@ -44,10 +48,15 @@ export async function listCustomers(req,res){
     export async function updateClient(req, res){
        const {name, phone, cpf, birthday} = req.body
        const { id } = req.params
-console.log(id,"do update")
-      try {
+
+
+if( cpf.length !== 11){return res.sendStatus(400)}
+if(phone.length <10 || phone.length >11) {return res.sendStatus(400)}
+
+try {
          const existCpf = await db.query(`SELECT * FROM customers WHERE cpf = $1`,[cpf]);
-    
+
+
    if(existCpf.rowCount !== 0 && existCpf.rows[0].id != id ){
 
     return res.sendStatus(409)
