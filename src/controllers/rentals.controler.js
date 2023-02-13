@@ -56,6 +56,17 @@ const objectRentals ={
         const { id } = req.params
         
         try {
+
+            const gameAvailable = await db.query(`SELECT * FROM games WHERE id = $1`,[id]);
+
+ //   console.log(existName.rows.length > 0 )
+
+   if(gameAvailable.rows[0].stockTotal === 0){
+
+    return res.sendStatus(400)
+   }
+
+
             const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
             if( checkId.rowCount == 0) return res.sendStatus(404)
             if(checkId.rows[0].returnDate) return res.sendStatus(400)
@@ -94,7 +105,7 @@ const objectRentals ={
      try {
        const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
        if( checkId.rowCount == 0) return res.sendStatus(404)
-       if(checkId.rows[0].returnDate !=null) return res.sendStatus(400)
+       if(checkId.rows[0].returnDate !=null) return res.sendStatus(200)
 
         await db.query(`DELETE FROM rentals WHERE id=$1`, [id])
         return res.sendStatus(200)
