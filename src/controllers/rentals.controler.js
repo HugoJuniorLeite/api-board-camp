@@ -59,13 +59,11 @@ const objectRentals ={
 
             const gameAvailable = await db.query(`SELECT * FROM games WHERE id = $1`,[id]);
 
- //   console.log(existName.rows.length > 0 )
-
+            
    if(gameAvailable.rows[0].stockTotal === 0){
 
     return res.sendStatus(400)
    }
-
 
             const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
             if( checkId.rowCount == 0) return res.sendStatus(404)
@@ -81,15 +79,6 @@ const objectRentals ={
             delayFee = dayDiff * priceDay
         }
     
-
-         console.log(dayDiff,"daydiff")
-        // console.log(priceDay,"preço dia")
-        // console.log(checkId.rows[0].originalPrice,"preço total")
-        // console.log(checkId.rows[0].daysRented,"dias locados")        
-        // console.log(returnDate,"hoje")
-        // console.log(checkId.rows[0].rentDate,"data de locação")
-         console.log(delayFee)
-
         await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2 WHERE id=$3`, [returnDate, delayFee, id])
 
         return res.sendStatus(200)
@@ -105,7 +94,7 @@ const objectRentals ={
      try {
        const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
        if( checkId.rowCount == 0) return res.sendStatus(404)
-       if(checkId.rows[0].returnDate !=null) return res.sendStatus(200)
+       if(checkId.rows[0].returnDate !=null) return res.sendStatus(400)
 
         await db.query(`DELETE FROM rentals WHERE id=$1`, [id])
         return res.sendStatus(200)
