@@ -61,10 +61,21 @@ const objectRentals ={
             if(checkId.rows[0].returnDate) return res.sendStatus(400)
             
         const returnDate = dayjs().format("YYYY-MM-DD")
-        const delayFee = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day') * ( checkId.rows[0].originalPrice /checkId.rows[0].daysRented ) 
-        
+        const dayDiff = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day')
+        const priceDay = ( checkId.rows[0].originalPrice / checkId.rows[0].daysRented ) 
+        let delayFee=null   
+        if(dayDiff > 0  ){
+            delayFee = dayDiff * priceDay
+        }
 
-        
+        // console.log(dayDiff,"daydiff")
+        // console.log(priceDay,"preço dia")
+        // console.log(checkId.rows[0].originalPrice,"preço total")
+        // console.log(checkId.rows[0].daysRented,"dias locados")        
+        // console.log(returnDate,"hoje")
+        // console.log(checkId.rows[0].rentDate,"data de locação")
+        // console.log(delayFee)
+
         await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2 WHERE id=$3`, [returnDate, delayFee, id])
 
         return res.sendStatus(200)
