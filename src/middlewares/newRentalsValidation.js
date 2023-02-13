@@ -18,7 +18,7 @@ try {
     next()
 
   } catch (error) {
-    res.status(400).send(error)
+    res.sendStatus(400)
   }
 }
 
