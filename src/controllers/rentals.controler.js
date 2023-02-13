@@ -64,20 +64,20 @@ const objectRentals ={
         const dayDiff = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day') - checkId.rows[0].daysRented
         const priceDay = ( checkId.rows[0].originalPrice / checkId.rows[0].daysRented ) 
         
-        let delayFee=null   
+        let delayFee= null   
 
         if(dayDiff > 0  ){
             delayFee = dayDiff * priceDay
         }
     
 
-        // console.log(dayDiff,"daydiff")
+         console.log(dayDiff,"daydiff")
         // console.log(priceDay,"preço dia")
         // console.log(checkId.rows[0].originalPrice,"preço total")
         // console.log(checkId.rows[0].daysRented,"dias locados")        
         // console.log(returnDate,"hoje")
         // console.log(checkId.rows[0].rentDate,"data de locação")
-        // console.log(delayFee)
+         console.log(delayFee)
 
         await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2 WHERE id=$3`, [returnDate, delayFee, id])
 
@@ -91,11 +91,10 @@ const objectRentals ={
 
     export async function deleteRental(req,res){
         const { id } = req.params
-
      try {
        const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
        if( checkId.rowCount == 0) return res.sendStatus(404)
-       if(checkId.rows[0].returnDate) return res.sendStatus(400)
+       if(checkId.rows[0].returnDate !=null) return res.sendStatus(400)
 
         await db.query(`DELETE FROM rentals WHERE id=$1`, [id])
         return res.sendStatus(200)

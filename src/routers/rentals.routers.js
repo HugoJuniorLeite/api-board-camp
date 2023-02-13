@@ -11,9 +11,9 @@ import { newRentalSchema } from "../schemas/newRentalSchema.js";
 
 const rentalsRouter = Router()
 
-rentalsRouter.post("/rentals/:id/return", finishRental);
 rentalsRouter.get("/rentals", listRentals);
 rentalsRouter.delete("/rentals/:id", deleteRental);
+rentalsRouter.post("/rentals/:id/return", finishRental);
 rentalsRouter.use(newRentalsValidation)
 rentalsRouter.post("/rentals",validateSchema(newRentalSchema), insertRentals);
 export default rentalsRouter;
