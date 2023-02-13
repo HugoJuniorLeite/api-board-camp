@@ -64,15 +64,15 @@ const objectRentals ={
     export async function finishRental(req,res){
         const { id } = req.params
 
-        // const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
-        // if( checkId.rowCount == 0) return res.sendStatus(404)
-        // if(checkId.rows[0].returnDate) return res.sendStatus(400)
-        
         try {
+            const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
+            if( checkId.rowCount == 0) return res.sendStatus(404)
+            if(checkId.rows[0].returnDate) return res.sendStatus(400)
+            
         const returnDate = 2022-10-15
         const delayFee =2
         
-        await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2  FROM rentals WHERE id=$3`, [returnDate, delayFee, id])
+        //await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2  FROM rentals WHERE id=$3`, [returnDate, delayFee, id])
 
         return res.sendStatus(200)
 
