@@ -2,7 +2,7 @@ import {db} from "../database/database.connection.js"
 
 export async function newRentalsValidation(req, res, next){
 
-const {gameId} = req.body
+const {gameId,daysRented} = req.body
 
 
 try {
@@ -10,7 +10,7 @@ try {
 
  //   console.log(existName.rows.length > 0 )
 
-   if(gameAvailable.rows[0].stockTotal < 1){
+   if(gameAvailable.rows[0].stockTotal < daysRented){
 
     return res.sendStatus(400)
    }
@@ -18,7 +18,7 @@ try {
     next()
 
   } catch (error) {
-    res.status(500).send(error)
+    res.status(400).send(error)
   }
 }
 
