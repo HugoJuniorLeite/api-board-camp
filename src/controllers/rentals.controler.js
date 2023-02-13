@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 export async function listRentals(req,res){
 
 try {
-    //const rentals = await db.query("SELECT * FROM rentals ")
+    
     const rentals = await db.query(`SELECT rentals.*                   
          ,json_build_object(
             'id', customers.id,
@@ -35,21 +35,12 @@ export async function insertRentals(req,res){
             const game = await db.query(`SELECT * FROM games WHERE id = $1;`, [gameId]);
 
 const objectRentals ={
-    // customerId:customerId,
-    // gameId:gameId,
     rentDate:dayjs().format("YYYY-MM-DD"),
     daysRented:daysRented,
     returnDate: null,
     originalPrice: game.rows[0].pricePerDay * daysRented,
     delayFee:null,
-    // customer: {
-    //     id: customer.rows[0].id,
-    //     name: customer.rows[0].name
-    //    },
-    //    game: {
-    //      id: game.rows[0].id,
-    //      name: game.rows[0].name
-    //    }
+
       } 
 
             await db.query(`INSERT INTO rentals( 
@@ -63,16 +54,18 @@ const objectRentals ={
 
     export async function finishRental(req,res){
         const { id } = req.params
-
+        
         try {
             const checkId = await db.query(`SELECT * FROM rentals WHERE id=$1`, [id] )
             if( checkId.rowCount == 0) return res.sendStatus(404)
             if(checkId.rows[0].returnDate) return res.sendStatus(400)
             
-        const returnDate = 2022-10-15
-        const delayFee =2
+        const returnDate = dayjs().format("YYYY-MM-DD")
+        const delayFee = dayjs(returnDate).diff(checkId.rows[0].rentDate,'day') * ( checkId.rows[0].originalPrice /checkId.rows[0].daysRented ) 
         
-        //await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2  FROM rentals WHERE id=$3`, [returnDate, delayFee, id])
+
+        
+        await db.query(`UPDATE rentals SET "returnDate"=$1, "delayFee"=$2 WHERE id=$3`, [returnDate, delayFee, id])
 
         return res.sendStatus(200)
 
